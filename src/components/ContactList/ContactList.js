@@ -12,9 +12,9 @@ export const ContactList = () => {
     const { data } = useSelector(contactApi.endpoints.fetchContacts.select());
     
     const getVisibleContact = () => {
-        if (data.length < 5) {
-            return data;
-        }
+        // if (data.length < 5) {
+        //     return data;
+        // }
         const normalizedFilter = filter.toLowerCase();
         return data.filter(({ name }) =>
             name.toLowerCase().includes(normalizedFilter),
