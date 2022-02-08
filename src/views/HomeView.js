@@ -49,7 +49,7 @@ const HomeView = () => {
     <section style={styles.section}>
       <div style={styles.container}>
     <h1 style={styles.title}>
-      Welcome to Phoneboock{' '}
+      Welcome to Phonebook{' '}
       <span role="img" aria-label="Иконка приветствия">
         <Icon color="primary" fontSize="large">settings_phone</Icon>
       </span>
