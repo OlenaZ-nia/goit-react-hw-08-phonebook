@@ -12,11 +12,7 @@ import { useGetCurrentUserQuery } from './services/users';
 import { Spinner } from './components/Spinner/Spinner';
 
 import HomeView from './views/HomeView';
-// import ContactsView from './views/ContactsView';
-// import LoginView from './views/LoginView';
 
-
-// const HomeView = lazy(() => import('./views/HomeView' /* webpackChunkName: "home-page" */));
 const LoginView = lazy(() => import('./views/LoginView' /* webpackChunkName: "login-page" */));
 const RegisterView = lazy(() => import('./views/RegisterView' /* webpackChunkName: "register-page" */));
 const ContactsView = lazy(()=>import ('./views/ContactsView' /* webpackChunkName: "contacts-page" */)) ;
