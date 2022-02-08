@@ -1,43 +1,63 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { lazy, Suspense, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { Container } from './components/Container/Container';
-import  ContactForm  from "./components/ContactForm/ContactForm";
-import { ContactList } from './components/ContactList/ContactList';
-import SearchFilter from './components/SearchFilter/SearchFilter';
-import { useFetchContactsQuery } from './services/api';
+import AppBar from './components/AppBar/AppBar';
 
-// import { contactApi } from './services/api';
-import { resetFilter } from './redux/filterSlice';
-
-
-import { Spinner } from './components/Spinner/Spinner';
+import PublicRoute from './components/PublicRoute';
+import PrivateRoute from './components/PrivateRoute';
 
 import 'modern-normalize/modern-normalize.css';
 
+import { useGetCurrentUserQuery } from './services/users';
+import { Spinner } from './components/Spinner/Spinner';
+
+import HomeView from './views/HomeView';
+// import ContactsView from './views/ContactsView';
+// import LoginView from './views/LoginView';
+
+
+// const HomeView = lazy(() => import('./views/HomeView' /* webpackChunkName: "home-page" */));
+const LoginView = lazy(() => import('./views/LoginView' /* webpackChunkName: "login-page" */));
+const RegisterView = lazy(() => import('./views/RegisterView' /* webpackChunkName: "register-page" */));
+const ContactsView = lazy(()=>import ('./views/ContactsView' /* webpackChunkName: "contacts-page" */)) ;
+
 
 export default function App() {
-  const { data, error, isFetching } = useFetchContactsQuery();
-  const dispatch = useDispatch();
-    // const { data } = useSelector(contactApi.endpoints.fetchContacts.select());
-    
-    useEffect(() => {
-       if (data && data.length < 5) {
-            dispatch(resetFilter(''))
-        };
-    }, [data, dispatch])
+
+  const { error}=useGetCurrentUserQuery();
+
+  useEffect(() => {
+    if (error) {
+      console.log("Error:", error.data.message);
+    }
+  }, [error])
 
   return (
-    <Container>
-      <h1>Phoneboock</h1>
-      <ContactForm />
+
+    <>
+      <Suspense fallback={<div style={{display: 'flex', height:'100vh', justifyContent: 'center', alignItems:'center'}}><Spinner/></div>}>
+        <Routes>
+        <Route path="/" element={<AppBar />}>
+
+          <Route index element={<HomeView />} />
+          <Route path="contacts" element={<PrivateRoute element={<ContactsView />} redirectTo="/login"/>} />
+          <Route path="register" element={<PublicRoute element={<RegisterView />} redirectTo="/contacts" restricted/>} />
+          <Route path="login" element={<PublicRoute element={<LoginView />} redirectTo="/contacts" restricted />} />
+          
+          <Route path="*" element={<Navigate to="/" />} />
+          
+        </Route>
+      </Routes> 
+      </Suspense>
       <ToastContainer autoClose={3000} theme={'dark'} />
-      <h2>Contacts</h2>
-      {(data && data.length >= 5) && <SearchFilter />}
-      {data && data.length === 0 ? <h3>Add contacts</h3> : <ContactList />}
-      {isFetching && <Spinner />}
-    </Container>
+      
+    </>
+    
     );
 }
+
+
+
+
 
 

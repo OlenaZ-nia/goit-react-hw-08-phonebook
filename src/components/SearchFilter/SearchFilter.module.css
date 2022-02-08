@@ -4,4 +4,14 @@
 .searchInput {
   display: flex;
   margin-top: 10px;
+  background-color: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.searchInput:hover,
+.searchInput:focus {
+  border-color: rgb(25, 118, 210);
+  color: rgb(25, 118, 210);
 }

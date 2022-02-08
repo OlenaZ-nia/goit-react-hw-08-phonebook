@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+.avatar {
+  margin-right: 4px;
+  width: 32px;
+  height: 32px;
+  background-color: rgb(161, 159, 159);
+  border-radius: 50%;
+}
+.name {
+  font-weight: 700;
+  margin-right: 4px;
+}
+.icone {
+  margin-right: 12px;
+}

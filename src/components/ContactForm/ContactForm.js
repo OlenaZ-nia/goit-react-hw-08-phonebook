@@ -1,19 +1,21 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useFetchContactsQuery, useAddContactMutation } from '../../services/api';
+import { useFetchContactsQuery, useAddContactMutation } from '../../services/contacts';
 
 import s from './ContactForm.module.css';
+
+import { Button } from '@mui/material';
 
 
 export default function ContactForm() {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
 
-    const {data: contacts, error} = useFetchContactsQuery();
+    const {data: contacts} = useFetchContactsQuery();
     const [addContact, { isLoading }] = useAddContactMutation();
     
 //     useEffect(() => {
-//     if (error) toast.error(`${error.status} ${error.data.msg}`)
+//     if (error) toast.error(`${error.data.msg}`)
 //   }, [error])
 
     const handleSubmit = (e) => {
@@ -51,6 +53,7 @@ export default function ContactForm() {
     
     return (
         <form className={s.form} onSubmit={handleSubmit}>
+
             <label className={s.label}> Name
                 <input className={s.input}
                     type="text"
@@ -73,9 +76,10 @@ export default function ContactForm() {
                        value={number}
                 />
             </label>
-            <button type="submit" className={s.btnAddContact} >
+            <Button variant="outlined" type="submit">{isLoading ? 'Adding...' : 'Add contact'}</Button>
+            {/* <button type="submit" className={s.btnAddContact} >
                 <span className={s.btnText}>{isLoading ? 'Adding...' : 'Add contact'}</span>
-            </button>
+            </button> */}
             
         </form>
     )
