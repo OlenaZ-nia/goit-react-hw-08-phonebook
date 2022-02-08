@@ -31,7 +31,7 @@ export default function ContactsView() {
   return (
     <>
       {isLoggedIn && <Container>
-      <h1>Phoneboock</h1>
+      <h1>Phonebook</h1>
       <ContactForm />
       <h2>Contacts</h2>
       {error && <h1>{ error.data.message}</h1>}
